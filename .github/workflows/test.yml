@@ -1,5 +1,8 @@
 name: Test
 
+# TEMPORARY: exercises hwinther/reusable-workflows' new go-build composite at its PR branch SHA.
+# Replaced by a pr-build.yml caller (go_enabled: true) once that ships in a release.
+
 on:
   pull_request:
   push:
@@ -20,18 +23,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        with:
-          go-version: stable
-          cache: false
-
-      - name: gofmt
-        run: |
-          unformatted=$(gofmt -l .)
-          [ -z "$unformatted" ] || { echo "::error::gofmt needed: $unformatted"; exit 1; }
-
-      - name: go vet
-        run: go vet ./...
-
-      - name: go test
-        run: go test -race -count=1 ./...
+      - name: Build go
+        id: go-build
+        uses: hwinther/reusable-workflows/.github/actions/go-build@70f69a21aa45a45f143d2b8fa1f6149cd493ace9 # feat/pr-build-go
