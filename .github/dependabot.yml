@@ -1,0 +1,47 @@
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    cooldown:
+      default-days: 7
+    assignees:
+      - "hwinther"
+    groups:
+      reusable-workflows:
+        patterns:
+          - "hwinther/reusable-workflows*"
+
+  # The golang build image and the distroless runtime digest. Rebuilt distroless digests are how
+  # Debian security fixes reach every image built FROM this one, so release after merging.
+  - package-ecosystem: "docker"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    cooldown:
+      default-days: 7
+    assignees:
+      - "hwinther"
+    groups:
+      base-images:
+        patterns:
+          - "*"
+
+  # Standard library only today; this picks up the go directive and any module added later.
+  - package-ecosystem: "gomod"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    cooldown:
+      default-days: 7
+    assignees:
+      - "hwinther"

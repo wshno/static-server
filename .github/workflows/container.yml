@@ -1,0 +1,42 @@
+name: "Publish container image to GHCR"
+
+# Pull requests: build and scan only (push_image is false for pull_request events in the reusable
+# workflow). v* tags (dispatched by tag-and-release.yml): multi-arch build, Grype gate, push, cosign
+# keyless sign, SBOM/vulnerability attestations and SLSA provenance, as
+# ghcr.io/wshno/static-server/server.
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      grype_fail_build:
+        description: "Fail the build if Grype finds vulnerabilities"
+        type: boolean
+        default: true
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  server:
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+      actions: write
+      security-events: write
+      pull-requests: write
+    uses: hwinther/reusable-workflows/.github/workflows/docker-container.yml@9e34c466e07a78ce6d982d0846b08ba51f38701f # v2.20.1
+    with:
+      container_registry: ghcr.io
+      container_image_name_postfix: server
+      build_context: .
+      dockerfile: Dockerfile
+      platforms: linux/amd64,linux/arm64
+      grype_fail_build: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.grype_fail_build == 'false' && 'never' || 'auto' }}
