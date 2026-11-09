@@ -1,4 +1,4 @@
-name: "Publish container image to GHCR"
+name: Publish release
 
 # Pull requests: build and scan only (push_image is false for pull_request events in the reusable
 # workflow). v* tags (dispatched by tag-and-release.yml): multi-arch build, Grype gate, push, cosign

@@ -1,4 +1,4 @@
-name: "PR build"
+name: CI
 
 # Thin caller: gofmt, go vet, go build and go test (-race, JUnit + Cobertura) via the reusable
 # pr-build workflow, with one sticky PR comment and a quality-go artifact. Runs on pushes to main
