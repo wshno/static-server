@@ -1,4 +1,4 @@
-name: "Prune GHCR images"
+name: Prune GHCR
 
 # Thin caller. The pruning logic lives in
 # hwinther/reusable-workflows/.github/workflows/prune-ghcr.yml — see that
