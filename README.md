@@ -1,5 +1,14 @@
 # static-server
 
+| | |
+|---|---|
+| **Build and release** | [![CI on main](https://github.com/wshno/static-server/actions/workflows/pr-build.yml/badge.svg?branch=main&event=push)](https://github.com/wshno/static-server/actions/workflows/pr-build.yml) [![Release](https://github.com/wshno/static-server/actions/workflows/container.yml/badge.svg)](https://github.com/wshno/static-server/actions/workflows/container.yml) |
+| **Tests** | [![Unit tests](https://wshno.github.io/static-server/badges/tests-unit.svg)](https://github.com/wshno/static-server/actions/workflows/pr-build.yml?query=branch%3Amain+event%3Apush) [![Build, lint and typecheck warnings](https://wshno.github.io/static-server/badges/warnings.svg)](https://github.com/wshno/static-server/actions/workflows/pr-build.yml?query=branch%3Amain+event%3Apush) |
+| **Coverage** | [![Go coverage](https://wshno.github.io/static-server/badges/coverage-go.svg)](https://github.com/wshno/static-server/actions/workflows/pr-build.yml?query=branch%3Amain+event%3Apush) [![Go branch coverage](https://wshno.github.io/static-server/badges/coverage-go-branches.svg)](https://github.com/wshno/static-server/actions/workflows/pr-build.yml?query=branch%3Amain+event%3Apush) |
+| **Security** | [![zizmor - GitHub Actions SAST](https://github.com/wshno/static-server/actions/workflows/zizmor.yml/badge.svg?branch=main)](https://github.com/wshno/static-server/actions/workflows/zizmor.yml) [![poutine - GitHub Actions SAST](https://github.com/wshno/static-server/actions/workflows/poutine.yml/badge.svg?branch=main)](https://github.com/wshno/static-server/actions/workflows/poutine.yml) |
+
+Badges: [https://wshno.github.io/static-server/](https://wshno.github.io/static-server/), from the quality summary of every CI run on main ([`pages.yml`](https://github.com/wshno/static-server/blob/main/.github/workflows/pages.yml)).
+
 A small static file server for containers: a single-page app, a prebuilt web UI, or a directory
 another container writes to. It is one Go binary that uses only the standard library, shipped on
 `gcr.io/distroless/static-debian13:nonroot` (uid 65532, no shell). The image therefore holds almost
