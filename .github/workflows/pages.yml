@@ -32,6 +32,6 @@ jobs:
       contents: read
       pages: write
       id-token: write
-    uses: hwinther/reusable-workflows/.github/workflows/pages.yml@02dff339e7f26772c680dfc334dc55d7b6bd536c # v2.41.0
+    uses: hwinther/reusable-workflows/.github/workflows/pages.yml@337c494b2d21cebbb72f7dc10c02993da1bdf988 # v2.41.1
     with:
       layers: badges:${{ github.event.workflow_run.id || inputs.run_id }}
