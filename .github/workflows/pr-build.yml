@@ -27,3 +27,19 @@ jobs:
     with:
       go_enabled: true
       todo_comment_enabled: false
+
+  # Pushes to main publish the test and coverage results as the signed OCI artifact
+  # ghcr.io/wshno/static-server/quality:main and the quality-summary workflow artifact, which the
+  # Pages workflow turns into the README badges.
+  quality:
+    needs: [pr-build]
+    if: ${{ !cancelled() && github.event_name == 'push' }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    uses: hwinther/reusable-workflows/.github/workflows/quality-artifact.yml@337c494b2d21cebbb72f7dc10c02993da1bdf988 # v2.41.1
+    with:
+      tags: |
+        main-${{ github.sha }}
+        main

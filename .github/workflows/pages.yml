@@ -1,0 +1,37 @@
+name: Pages
+
+# Publishes the status badges (unit and e2e tests, warnings, image vulnerabilities, coverage) to
+# GitHub Pages at https://wshno.github.io/static-server/badges/, from the quality summary of every E2E push run on main.
+# A failed run counts too, so failed tests turn the badge red. More layers (plain HTML, reports)
+# and how they combine: hwinther/reusable-workflows docs/pages.md.
+
+on:
+  # Never runs code from the triggering run: it only reads that run's quality-summary artifact.
+  workflow_run: # zizmor: ignore[dangerous-triggers]
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "CI run whose quality summary to publish (empty: keep the published badges)"
+        required: false
+        default: ""
+
+permissions: {}
+
+jobs:
+  pages:
+    # Pushes only: a pull request from a fork can also come from a branch called main.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'push' &&
+      contains(fromJSON('["success", "failure"]'), github.event.workflow_run.conclusion))
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    uses: hwinther/reusable-workflows/.github/workflows/pages.yml@337c494b2d21cebbb72f7dc10c02993da1bdf988 # v2.41.1
+    with:
+      layers: badges:${{ github.event.workflow_run.id || inputs.run_id }}
