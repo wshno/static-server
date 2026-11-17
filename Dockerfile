@@ -4,7 +4,7 @@
 #
 # Updates: Dependabot bumps the golang and distroless digests.
 
-FROM --platform=$BUILDPLATFORM golang:1.27.2-alpine3.24@sha256:f92b6ef800e499660581efdabdf25d9d817a9d124eaf900924f0504e7e27e12d AS build
+FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine3.24@sha256:fa3d596898d9f126af7c01d14ee7597bab3f39cccf392ef36b69fe77cd681f18 AS build
 WORKDIR /src
 COPY go.mod ./
 COPY *.go ./
@@ -21,7 +21,7 @@ ARG APP_VERSION=dev
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
     go build -trimpath -ldflags="-s -w -X main.version=${APP_VERSION}" -o /out/static-server .
 
-FROM gcr.io/distroless/static-debian13:nonroot@sha256:25ac8f0c3b2334a9eb05452266bd4697864a8c8ef0ef71e5e6480d7f92868329
+FROM gcr.io/distroless/static-debian13:nonroot@sha256:aafe993665bf6200db38a02c11a9351e782a84b6a45e7f33b6695638c88e3931
 COPY --from=compile /out/static-server /usr/bin/static-server
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s CMD ["/usr/bin/static-server", "-healthcheck"]
